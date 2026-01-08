@@ -1,42 +1,19 @@
 const express = require("express");
 const app = express();
-const { products } = require("./data.js");
+
+// req => middleware => res
 
 app.get("/", (req, res) => {
-  res.send('<h1>Home page<h1><a href="/api/products">products</a>');
+  const method = req.method;
+  const url = req.url;
+  const time = new Date().getFullYear();
+  console.log(method, url, time);
+
+  res.send("Home page");
 });
-
-app.get("/api/products", (req, res) => {
-  const newProducts = products.map((product) => {
-    const { id, name, image } = product;
-    return { id, name, image };
-  });
-  res.send(newProducts);
-});
-app.get("/api/products/:productID", (req, res) => {
-  const { productID } = req.params;
-
-  const singleProduct = product.find(
-    (product) => product.id === Number(productID)
-  );
-  if (!singleProduct) {
-    return res.status(404).send("product does not exist");
-  }
-  res.json(singleProduct); // in last a return statement is added why is that
-});
-
-app.get("/api/v1/query", (req, res) => {
-  // console.log(req.query);
-  const { search, limit } = req.query;
-  let sortedProducts = [...products];
-
-  if (search) {
-    sortedProducts = sortedProducts.filter((products) => {
-      return products.name.startsWith(search);
-    });
-  }
-  res.send("Hello world");
+app.get("/about", (req, res) => {
+  res.send("About page");
 });
 app.listen(5000, () => {
-  console.log("Server is listening on port 5000");
+  console.log("Server is listening in the port 5000");
 });
